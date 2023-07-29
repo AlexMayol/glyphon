@@ -1,0 +1,15 @@
+{
+  "name": "glyphon",
+  "version": "1.0.0",
+  "description": "Hacker glyph effect",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexMayol/glyphon.git"
+  },
+  "author": "Alejandro Mayol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexMayol/glyphon/issues"
+  },
+  "homepage": "https://github.com/AlexMayol/glyphon#readme"
+}

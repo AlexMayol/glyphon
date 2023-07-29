@@ -28,6 +28,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     text: 'La pepecion',
+    mode: 'onmount',
   },
 };
 

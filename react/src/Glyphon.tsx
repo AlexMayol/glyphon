@@ -1,32 +1,44 @@
 import { useEffect, useState, useRef } from "react";
 
-export const defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+export const defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+type Options = {
+    iterationsPerGlyph?: number;
+    speed?: number;
+    glyphs?: string;
+}
 type Props = {
     id?: string;
+    options?: Options;
     alphabet?: string;
     mode?: 'onhover' | 'onmount'
     text: string;
-    speed?: number;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
-export const Glyphon = ({ id, alphabet = defaultAlphabet, mode = 'onhover', text, speed = 50, ...rest }: Props) => {
-    const interval = useRef<number>();
+const defaultOptions = {
+    iterationsPerGlyph: 3,
+    speed: 50,
+    glyphs: defaultAlphabet
+}
 
-    const hasFinished = useRef(false);
+const randomLetter = (alphabet: string[]) => alphabet[Math.floor(Math.random() * alphabet.length)];
+
+export const Glyphon = ({ id, options = defaultOptions, mode = 'onhover', text, ...rest }: Props) => {
+    const { glyphs = defaultOptions.glyphs, iterationsPerGlyph = defaultOptions.iterationsPerGlyph, speed = defaultOptions.speed } = options
+    const interval = useRef<NodeJS.Timer>();
+    const intervals = useRef<NodeJS.Timer[]>([]);
+
+    const hasFinished = useRef(true);
     const iteration = useRef(0);
-    const finalAlphabet = [...new Set(alphabet)];
-    const alphabetLength = finalAlphabet.length;
+    const finalAlphabet = [...new Set(glyphs)];
 
     const [result, setResult] = useState<string>(text);
-
-    const randomLetter = () => finalAlphabet[Math.floor(Math.random() * alphabetLength)];
 
     const onHoverEffect = () => {
         if (!hasFinished.current) return
         iteration.current = 0;
-
+        hasFinished.current = false
 
         interval.current = setInterval(() => {
             setResult(result =>
@@ -35,17 +47,48 @@ export const Glyphon = ({ id, alphabet = defaultAlphabet, mode = 'onhover', text
                         if (text[index] === ' ') return ' '
                         return text[index];
                     }
-                    return randomLetter()
+                    return randomLetter(finalAlphabet)
+                }).join("")
+            );
+
+            if (iteration.current >= text.length) {
+                onFinishEffect()
+            }
+            iteration.current += 1 / iterationsPerGlyph;
+
+        }, speed);
+        intervals.current.push(interval.current)
+    }
+
+    const onMountEffect = () => {
+        if (!hasFinished.current) return
+        iteration.current = 0;
+        interval.current = setInterval(() => {
+            setResult(result =>
+                result.split("").map((_, index) => {
+                    if (index < iteration.current) {
+                        if (text[index] === ' ') return ' '
+                        return text[index];
+                    }
+                    return randomLetter(finalAlphabet)
                 }).join("")
             )
 
             if (iteration.current >= text.length) {
-                clearInterval(interval.current);
+                onFinishEffect()
             }
-            iteration.current += 1 / 2;
+            iteration.current += 1 / iterationsPerGlyph;
+
 
         }, speed);
+        intervals.current.push(interval.current)
     }
+
+    const onFinishEffect = () => {
+        hasFinished.current = true;
+        intervals.current.forEach(interval => clearInterval(interval))
+    }
+
     useEffect(() => {
         const el = document?.getElementById?.(id || `glyph-effect-${text}`);
         if (!el) return;
@@ -53,41 +96,10 @@ export const Glyphon = ({ id, alphabet = defaultAlphabet, mode = 'onhover', text
         if (mode === 'onhover') {
             el.onmouseover = onHoverEffect
         }
-
         if (mode === 'onmount') {
-            console.log(1111)
-            if (!hasFinished.current) return
-            iteration.current = 0;
-            console.log('2')
-            interval.current = setInterval(() => {
-                setResult(result =>
-                    result.split("").map((_, index) => {
-                        if (index < iteration.current) {
-                            if (text[index] === ' ') return ' '
-                            return text[index];
-                        }
-                        return randomLetter()
-                    }).join("")
-                )
-
-                if (iteration.current >= text.length) {
-                    clearInterval(interval.current);
-                }
-                iteration.current += 1 / 2;
-
-
-            }, speed);
+            el.onmouseover = onMountEffect
         }
-
-
-    }, [])
-
-    useEffect(() => {
-        if (result === text) {
-            hasFinished.current = true;
-            clearInterval(interval);
-        }
-    }, [result])
+    })
 
     return (
         <span id={id || `glyph-effect-${text}`} {...rest}>
