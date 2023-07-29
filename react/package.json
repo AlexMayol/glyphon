@@ -16,7 +16,7 @@
     "dist"
   ],
   "main": "./dist/glyphon.es.js",
-  "types": "./dist/glyphon.d.ts",
+  "types": "./dist/Glyphon.d.ts",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
