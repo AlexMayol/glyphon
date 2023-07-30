@@ -6,6 +6,9 @@ jobs:
   publish:
     name: 🚀 Publish
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./react
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
