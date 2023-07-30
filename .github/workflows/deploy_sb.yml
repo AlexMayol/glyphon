@@ -11,7 +11,11 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
 
     - name: Build and deploy Storybook
       uses: peaceiris/actions-gh-pages@v3
