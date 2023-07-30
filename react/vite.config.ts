@@ -14,7 +14,6 @@ export default defineConfig({
       exclude: [
         '**/stories/**/*',
         '**/tests/**/*',
-        '**/*.es.js',
       ],
     }),
   ],
