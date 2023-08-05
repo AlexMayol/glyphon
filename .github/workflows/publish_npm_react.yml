@@ -1,15 +1,17 @@
-name: Publish to npm
+name: Publish React library to npm
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
-    name: 🚀 Publish
+    name: 🚀 Publish React library
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./react
-    if: github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
         uses: actions/checkout@v3

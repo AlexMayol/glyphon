@@ -1,12 +1,15 @@
-name: Unit tests
-on: pull_request
+name: Unit tests for Svelte library
+on:
+   pull_request:
+      branches: 
+        - 'svelte-*'
 
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./react
+        working-directory: ./svelte
     steps:
       - uses: actions/checkout@v3
         name: Checkout
@@ -23,8 +26,5 @@ jobs:
       - run: pnpm install
         name: Install dependencies
 
-      - run: pnpm test
-        name: Run unit tests
-
-      - run: pnpm build
-        name: Check build
+      - run: pnpm package
+        name: Check if build works

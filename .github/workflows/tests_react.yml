@@ -1,0 +1,33 @@
+name: Unit tests for React library
+on:
+   pull_request:
+      branches: 
+        - 'react-*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./react
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        name: Setup node.js
+        with:
+          node-version: "18"
+
+      - run: pnpm install
+        name: Install dependencies
+
+      - run: pnpm test
+        name: Run unit tests
+
+      - run: pnpm build
+        name: Check build
