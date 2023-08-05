@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/svelte';
 
 import Glyphon from '../lib/Glyphon.svelte';
 
-// More on how to set up stories at: https://storybook.js.org/docs/svelte/writing-stories/introduction
 const meta = {
 	title: 'Glyphon Svelte',
 	component: Glyphon,
@@ -13,9 +12,22 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/svelte/writing-stories/args
-export const Primary: Story = {
+export const OnHover: Story = {
 	args: {
 		text: 'Glyphon effect'
+	}
+};
+
+export const OnMount: Story = {
+	args: {
+		text: 'Glyphon effect can run also when component mounts',
+		mode: 'onmount'
+	}
+};
+export const CustomCSS: Story = {
+	args: {
+		text: 'Hacker effect looks pretty cool',
+		style:
+			'font-family:monospace;color: #00e300; border-radius: .5rem; background-color: black; padding: .5rem'
 	}
 };

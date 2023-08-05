@@ -5,7 +5,8 @@
 	export let text: string;
 	export let alphabet: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	export let as: string = 'span';
-	export let id: string = `glyphon-effect-${text}`;
+	export let id: string = `glyphon-effect-${Math.random()}`;
+
 	const defaultOptions = {
 		iterationsPerGlyph: 3,
 		speed: 30,
@@ -29,13 +30,7 @@
 	let result = text;
 
 	let interval: NodeJS.Timer;
-	let intervals: NodeJS.Timer[] = [];
 	let iteration = 0;
-
-	const onFinishEffect = () => {
-		hasEffectFinished = true;
-		intervals.forEach((interval) => clearInterval(interval));
-	};
 
 	const onMouseOverEffect = () => {
 		if (!hasEffectFinished) return;
@@ -58,13 +53,11 @@
 				.join('');
 
 			if (iteration >= text.length) {
-				onFinishEffect();
+				hasEffectFinished = true;
 			}
 
 			iteration += 1 / iterationsPerGlyph;
 		}, speed);
-
-		intervals.push(interval);
 	};
 
 	const onMountEffect = () => {
@@ -83,11 +76,10 @@
 				.join('');
 
 			if (iteration >= text.length) {
-				onFinishEffect();
+				hasEffectFinished = true;
 			}
 			iteration += 1 / iterationsPerGlyph;
 		}, speed);
-		intervals.push(interval);
 	};
 	onMount(() => {
 		const element = document.getElementById(id);
@@ -97,9 +89,9 @@
 			element.onmouseover = onMouseOverEffect;
 		}
 		if (mode === 'onmount') {
-			element.onmouseover = onMountEffect;
+			onMountEffect();
 		}
 	});
 </script>
 
-<svelte:element this={as} {id}>{result}</svelte:element>
+<svelte:element this={as} {id} {...$$restProps}>{result}</svelte:element>
