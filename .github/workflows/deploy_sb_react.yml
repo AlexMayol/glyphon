@@ -12,12 +12,14 @@ jobs:
       contents: write
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
-    defaults:
-      run:
-        working-directory: ./react
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+    - run: ls
+      name: List directory
+    - run: cd react
+      name: Change directory
+      
 
     - uses: pnpm/action-setup@v2
       with:
@@ -29,17 +31,15 @@ jobs:
     - run: pnpm build-storybook
       name: Build Storybook
 
+   
     - run: ls
       name: List directory
     - run: cd ..
-      name: Change directory
     - run: ls
-      name: List directory
     - run: cd docs
-      name: Change directory
       
     - name: Deploy Storybook
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ../docs
+        publish_dir: ./docs
