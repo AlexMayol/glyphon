@@ -3,13 +3,12 @@ on: pull_request
 
 jobs:
   test:
+    if: contains(github.head_ref, 'svelte-')
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./svelte
     steps:
-      - run: echo ${{github.head_ref}}
-
       - uses: actions/checkout@v3
         name: Checkout
 
