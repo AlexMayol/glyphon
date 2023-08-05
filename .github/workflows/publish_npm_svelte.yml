@@ -7,7 +7,8 @@ on:
 
 jobs:
   publish:
-    name: 🚀 Publish React library
+    if: contains(github.head_ref, 'svelte-')
+    name: 🚀 Publish Svelte library
     runs-on: ubuntu-latest
     defaults:
       run:
