@@ -1,11 +1,9 @@
 name: Unit tests for React library
-on:
-   pull_request:
-      branches: 
-        - 'react-*'
+on: pull_request
 
 jobs:
   test:
+    if: contains(github.ref, 'react-')
     runs-on: ubuntu-latest
     defaults:
       run:

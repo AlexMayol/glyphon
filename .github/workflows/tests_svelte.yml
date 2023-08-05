@@ -1,11 +1,9 @@
 name: Unit tests for Svelte library
-on:
-   pull_request:
-      branches: 
-        - 'svelte-*'
+on: pull_request
 
 jobs:
   test:
+    if: contains(github.head_ref, 'svelte-')
     runs-on: ubuntu-latest
     defaults:
       run:
