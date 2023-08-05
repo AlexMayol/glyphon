@@ -34,5 +34,5 @@ jobs:
       - name: 🚀 Publish to npm
         uses: JS-DevTools/npm-publish@v1
         with:
-          working-directory: ./svelte
+          package_path: ./svelte
           token: ${{ secrets.PUBLISH_NPM_GLYPHON_SVELTE }}
