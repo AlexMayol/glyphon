@@ -19,6 +19,8 @@ jobs:
       name: List directory
     - run: cd react
       name: Change directory
+    - run: ls
+      name: List directory
       
 
     - uses: pnpm/action-setup@v2
