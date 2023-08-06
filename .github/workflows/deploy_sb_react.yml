@@ -1,39 +1,75 @@
-name: Deploy React docs to GitHub Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 
 jobs:
+  # Single deploy job since we're just deploying
+  build-react-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Check folder
+        run: ls
+      - name: React folder
+        run: cd react
+
+      - run: pnpm install
+        name: Install dependencies
+
+      - run: pnpm build-storybook
+        name: Build Storybook
+
+  build-svelte-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Check folder
+        run: ls
+      - name: Svelte folder
+        run: cd svelte
+
+      - run: pnpm install
+        name: Install dependencies
+
+      - run: pnpm build-storybook
+        name: Build Storybook
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./react
-    permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - uses: pnpm/action-setup@v2
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        version: 8
-
-    - run: pnpm install
-      name: Install dependencies
-      
-    - run: pnpm build-storybook
-      name: Build Storybook
-
-    - run: ls
-      name: List directory
-      
-    - name: Deploy Storybook
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./storybook-static
+        # Upload entire repository
+        path: './docs'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
