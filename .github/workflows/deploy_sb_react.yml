@@ -28,16 +28,12 @@ jobs:
         with:
           version: 8
 
-      - name: Check folder
-        run: ls
-      - name: React folder
-        run: cd react
-
-      - run: pnpm install
-        name: Install dependencies
-
-      - run: pnpm build-storybook
-        name: Build Storybook
+      - name: Whole process
+        run: | 
+          ls
+          cd react
+          pnpm install
+          pnpm build-storybook
 
   build-svelte-storybook:
     runs-on: ubuntu-latest
@@ -49,16 +45,14 @@ jobs:
         with:
           version: 8
 
-      - name: Check folder
-        run: ls
-      - name: Svelte folder
-        run: cd svelte
+      - name: Whole process
+        run: | 
+          ls
+          cd svelte
+          pnpm install
+          pnpm build-storybook
 
-      - run: pnpm install
-        name: Install dependencies
-
-      - run: pnpm build-storybook
-        name: Build Storybook
+  
   deploy:
     runs-on: ubuntu-latest
     steps:
