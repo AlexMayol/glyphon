@@ -52,7 +52,7 @@ export const LowSpeed: Story = {
 
 export const HighSpeed: Story = {
   args: {
-    text: 'I change reapidly',
+    text: 'I change fast!',
     options: {
       speed: 10,
     }
