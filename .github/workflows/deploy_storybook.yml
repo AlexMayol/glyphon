@@ -23,7 +23,7 @@ jobs:
         with:
           version: 8
 
-      - name: Build Storybook docs for both libraries
+      - name: React SB generation
         run: | 
           ls
           cd react
