@@ -1,35 +1,35 @@
-name: Deploy Svelte docs to GitHub Pages
+# name: Deploy Svelte docs to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./svelte
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./svelte
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v3
 
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8
+#     - uses: pnpm/action-setup@v2
+#       with:
+#         version: 8
 
-    - run: pnpm install
-      name: Install dependencies
+#     - run: pnpm install
+#       name: Install dependencies
       
-    - run: pnpm build-storybook
-      name: Build Storybook
+#     - run: pnpm build-storybook
+#       name: Build Storybook
       
-    - name: Deploy Storybook
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ../docs
+#     - name: Deploy Storybook
+#       uses: peaceiris/actions-gh-pages@v3
+#       with:
+#         github_token: ${{ secrets.GITHUB_TOKEN }}
+#         publish_dir: ../docs

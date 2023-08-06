@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   # Single deploy job since we're just deploying
-  build-react-storybook:
+  build-storybook:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,42 +28,33 @@ jobs:
         with:
           version: 8
 
-      - name: Whole process
+      - name: React SB generation
         run: | 
           ls
           cd react
           pnpm install
           pnpm build-storybook
 
-  build-svelte-storybook:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Whole process
+      - name: Svelte SB generation
         run: | 
           ls
           cd svelte
           pnpm install
           pnpm build-storybook
 
+      - name: Check generation
+        run: | 
+          ls
+          cd docs
+          ls
   
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-        
-    - name: Setup Pages
-      uses: actions/configure-pages@v3
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
-      with:
-        # Upload entire repository
-        path: './docs'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload entire repository
+          path: './docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
