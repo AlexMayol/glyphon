@@ -34,4 +34,5 @@ jobs:
       - name: 🚀 Publish to npm
         uses: JS-DevTools/npm-publish@v1
         with:
+          package: ./react/package.json
           token: ${{ secrets.PUBLISH_NPM_GLYPHON_REACT }}
