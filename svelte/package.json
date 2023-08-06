@@ -1,6 +1,6 @@
 {
 	"name": "@glyphon/svelte",
-	"version": "1.0.1",
+	"version": "1.2.0",
 	"scripts": {
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
@@ -46,8 +46,6 @@
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"publint": "^0.1.9",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
 		"storybook": "7.2.1",
 		"svelte": "^4.0.5",
 		"svelte-check": "^3.4.3",
